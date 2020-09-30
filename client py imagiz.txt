@@ -1,0 +1,19 @@
+import cv2
+import imagiz
+
+#gpio code here
+cap = cv2.VideoCapture(0)
+sock_sender = imagiz.TCP_Client(server_port=9999, server_ip="192.168.0.103", client_name="raspberrypi1")
+encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
+
+
+while True:
+    # sock_sender.initialize_sender('192.168.0.103', 9999)
+    r, frame = cap.read()
+    if r:
+        r,image1 = cv2.imencode('.jpg',frame, encode_param)
+        response = sock_sender.send(image1)
+        # print(response)
+    
+
+
